@@ -96,7 +96,6 @@
 
       <select id="categoryFilter">
         <option value="all">Semua Kategori</option>
-
         <% [...new Set(products.map(p => p.category))].forEach(category => { %>
           <option value="<%= category %>"><%= category %></option>
         <% }) %>
@@ -129,7 +128,7 @@
           </div>
 
           <h3><%= product.name %></h3>
-          <p><%= product.description %></p>
+          <p><%= product.description || 'Premium digital product.' %></p>
 
           <div class="price">
             Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
@@ -141,7 +140,16 @@
             <span class="stock empty">● Habis</span>
           <% } %>
 
-          <a href="https://discord.gg/" class="order-btn">Order Sekarang</a>
+          <button
+            type="button"
+            class="order-btn detail-btn"
+            data-name="<%= product.name %>"
+            data-price="Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>"
+            data-stock="<%= product.stock %>"
+            data-desc="<%= product.description || 'Premium digital product.' %>"
+          >
+            Order Sekarang
+          </button>
         </div>
       <% }) %>
     </div>
@@ -171,7 +179,7 @@
           </div>
 
           <h3><%= product.name %></h3>
-          <p><%= product.description %></p>
+          <p><%= product.description || 'Premium digital product.' %></p>
 
           <h4>Rp <%= Number(product.price || 0).toLocaleString('id-ID') %></h4>
 
@@ -182,7 +190,16 @@
               <span class="stock empty">Habis</span>
             <% } %>
 
-            <a href="https://discord.gg/" class="cart">🛒</a>
+            <button
+              type="button"
+              class="cart detail-btn"
+              data-name="<%= product.name %>"
+              data-price="Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>"
+              data-stock="<%= product.stock %>"
+              data-desc="<%= product.description || 'Premium digital product.' %>"
+            >
+              🛒
+            </button>
           </div>
         </div>
       <% }) %>
@@ -265,6 +282,24 @@
   </div>
 </footer>
 
+<div class="modal" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose">×</button>
+
+    <h2 id="modalName"></h2>
+    <p id="modalDesc"></p>
+
+    <div class="modal-info">
+      <span id="modalPrice"></span>
+      <span id="modalStock"></span>
+    </div>
+
+    <a href="https://discord.gg/" class="modal-order">
+      Order via Discord
+    </a>
+  </div>
+</div>
+
 <script src="/particles.js"></script>
 
 <script>
@@ -289,6 +324,32 @@
 
   searchInput.addEventListener('input', filterProducts);
   categoryFilter.addEventListener('change', filterProducts);
+
+  const modal = document.getElementById('productModal');
+  const modalClose = document.getElementById('modalClose');
+
+  document.querySelectorAll('.detail-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('modalName').textContent = btn.dataset.name;
+      document.getElementById('modalDesc').textContent = btn.dataset.desc;
+      document.getElementById('modalPrice').textContent = btn.dataset.price;
+
+      document.getElementById('modalStock').textContent =
+        Number(btn.dataset.stock) > 0
+          ? `Stock: ${btn.dataset.stock}`
+          : 'Stock Habis';
+
+      modal.classList.add('show');
+    });
+  });
+
+  modalClose.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.classList.remove('show');
+  });
 </script>
 
 </body>
