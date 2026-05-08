@@ -89,17 +89,35 @@ client.once('clientReady', () => {
 
 connectDatabase();
 startWeb();
+let isConnecting = false;
+
 async function startBot() {
+  if (isConnecting) return;
+  isConnecting = true;
+
   try {
     await client.login(process.env.TOKEN);
-    console.log("BOT MANJAH READY BOS!");
   } catch (err) {
-    console.error("Discord Gateway Error:", err.message);
+    console.error('Discord Gateway Error:', err.message);
 
-    console.log("Reconnect dalam 15 detik...");
+    isConnecting = false;
 
-    setTimeout(startBot, 15000);
+    console.log('Reconnect dalam 30 detik...');
+    setTimeout(startBot, 30000);
   }
 }
+
+client.once('ready', () => {
+  isConnecting = false;
+  console.log(`BOT MANJAH READY BOS! ${client.user.tag}`);
+});
+
+client.on('shardDisconnect', () => {
+  console.log('Bot disconnect dari Discord. Reconnect otomatis...');
+});
+
+process.on('unhandledRejection', err => {
+  console.error('Unhandled Rejection:', err.message);
+});
 
 startBot();
