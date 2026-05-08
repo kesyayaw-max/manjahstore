@@ -1,4 +1,5 @@
 require('dotenv').config();
+const startWeb = require('./web/server');
 const connectDatabase = require('./database/mongoose');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('fs');
@@ -87,4 +88,5 @@ client.once('clientReady', () => {
 });
 
 connectDatabase();
+startWeb();
 client.login(process.env.TOKEN);

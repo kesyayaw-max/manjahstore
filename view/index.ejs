@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manjah Store</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <section class="hero">
+    <h1>MANJAH STORE</h1>
+    <p>Digital product, Discord service, premium app, dan auto delivery.</p>
+    <a href="https://discord.gg/" class="btn">Order via Discord</a>
+  </section>
+
+  <section class="products">
+    <h2>Produk Tersedia</h2>
+
+    <div class="grid">
+      <% products.forEach(product => { %>
+        <div class="card">
+          <span class="category"><%= product.category %></span>
+          <h3><%= product.name %></h3>
+          <p><%= product.description || '-' %></p>
+          <h4>Rp <%= product.price.toLocaleString('id-ID') %></h4>
+
+          <% if (product.stock > 0) { %>
+            <span class="stock ready">Stock: <%= product.stock %></span>
+          <% } else { %>
+            <span class="stock empty">Habis</span>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+</body>
+</html>
