@@ -21,7 +21,9 @@
           <span class="category"><%= product.category %></span>
           <h3><%= product.name %></h3>
           <p><%= product.description || '-' %></p>
-          <h4>Rp <%= product.price.toLocaleString('id-ID') %></h4>
+          <h4>
+          Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
+          </h4>
 
           <% if (product.stock > 0) { %>
             <span class="stock ready">Stock: <%= product.stock %></span>
