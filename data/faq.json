@@ -1,0 +1,18 @@
+[
+  {
+    "keywords": ["harga", "price", "berapa"],
+    "reply": "💰 **Harga bisa kamu lihat di katalog yaa!**"
+  },
+  {
+    "keywords": ["payment", "bayar", "qris"],
+    "reply": "💳 **Metode Pembayaran:**\nKami tidak menggunakan **QRIS**.\nSementara silakan buka channel **PAYMENT** yaa!"
+  },
+  {
+    "keywords": ["admin", "cs", "support"],
+    "reply": "👨‍💼 **Admin akan membalas secepatnya.**\nMohon bersabar ya 🙏"
+  },
+  {
+    "keywords": ["tutup", "close"],
+    "reply": "🔒 **Ticket akan ditutup oleh admin setelah selesai.**"
+  }
+]
