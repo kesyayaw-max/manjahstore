@@ -3,17 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-  "deploy": "node deploy-commands.js",
-  "start": "node index.js"
-},
-  "author": "ELL",
-  "license": "ISC",
-  "description": "Bot Manjah Store",
+    "deploy": "node deploy-commands.js",
+    "start": "node index.js"
+  },
   "dependencies": {
     "discord.js": "^14.26.4",
     "dotenv": "^17.4.2",
-    "ejs": "^5.0.2",
-    "express": "^5.2.1",
-    "mongoose": "^9.6.1"
+    "mongoose": "^9.6.1",
+    "express": "^4.21.2",
+    "ejs": "^3.1.10"
   }
 }
