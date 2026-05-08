@@ -89,4 +89,17 @@ client.once('clientReady', () => {
 
 connectDatabase();
 startWeb();
-client.login(process.env.TOKEN);
+async function startBot() {
+  try {
+    await client.login(process.env.TOKEN);
+    console.log("BOT MANJAH READY BOS!");
+  } catch (err) {
+    console.error("Discord Gateway Error:", err.message);
+
+    console.log("Reconnect dalam 15 detik...");
+
+    setTimeout(startBot, 15000);
+  }
+}
+
+startBot();
