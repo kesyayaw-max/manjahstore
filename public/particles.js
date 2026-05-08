@@ -51,7 +51,7 @@ function animate() {
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(168, 85, 247, ${p.alpha})`;
     ctx.shadowBlur = 15;
-    ctx.shadowColor = "#dcc1f6";
+    ctx.shadowColor = "#a855f7";
     ctx.fill();
 
     p.x += p.dx;
