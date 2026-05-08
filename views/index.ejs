@@ -2,84 +2,252 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manjah Store</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
+<canvas id="particles"></canvas>
+
+<div class="lightning lightning-a"></div>
+<div class="lightning lightning-b"></div>
+
+<nav class="navbar">
+  <div class="logo-area">
+    <img src="/logo.png" class="logo-img">
+    <div>
+      <h2>MANJAH <span>STORE</span></h2>
+      <small>Premium Digital Market</small>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#products">Produk</a>
+    <a href="#stats">Stats</a>
+    <a href="#footer">Kontak</a>
+  </div>
+
+  <a href="https://discord.gg/" class="discord-btn">Join Discord</a>
+</nav>
+
 <section class="hero">
+  <div class="floating icon1">💬</div>
+  <div class="floating icon2">🎧</div>
+  <div class="floating icon3">💎</div>
+  <div class="floating icon4">👑</div>
+
   <div class="hero-content">
-    <h1>MANJAH STORE</h1>
+    <div class="badge">⚡ AUTO DELIVERY MARKETPLACE</div>
+
+    <h1>MANJAH <span>STORE</span></h1>
 
     <p>
-      Premium Digital Marketplace • Discord Service • Auto Delivery
+      Digital Product • Discord Service • Premium App • Auto Delivery
     </p>
 
-    <div class="hero-buttons">
-      <a href="https://discord.gg/" class="btn btn-primary">
-        Join Discord
-      </a>
+    <div class="hero-features">
+      <span>⚡ Instant Delivery</span>
+      <span>🛡️ Trusted Store</span>
+      <span>🎧 24/7 Support</span>
+      <span>💎 Premium Quality</span>
+    </div>
 
-      <a href="#products" class="btn btn-secondary">
-        Lihat Produk
-      </a>
+    <div class="hero-buttons">
+      <a href="https://discord.gg/" class="btn primary">Join Discord</a>
+      <a href="#products" class="btn secondary">Lihat Produk</a>
     </div>
   </div>
 </section>
 
-<section class="products" id="products">
-
-  <h2 class="section-title">
-    Produk Tersedia
-  </h2>
-
-  <div class="grid">
-
-    <% products.forEach(product => { %>
-
-      <div class="card">
-
-        <span class="category">
-          <%= product.category %>
-        </span>
-
-        <h3>
-          <%= product.name %>
-        </h3>
-
-        <p class="desc">
-          <%= product.description || '-' %>
-        </p>
-
-        <div class="price">
-          Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
-        </div>
-
-        <% if (product.stock > 0) { %>
-
-          <span class="stock ready">
-            Stock: <%= product.stock %>
-          </span>
-
-        <% } else { %>
-
-          <span class="stock empty">
-            Stock Habis
-          </span>
-
-        <% } %>
-
-      </div>
-
-    <% }) %>
-
+<section class="stats" id="stats">
+  <div class="stat-card">
+    <h3><%= stats.totalProducts %></h3>
+    <p>Total Produk</p>
   </div>
+
+  <div class="stat-card">
+    <h3><%= stats.totalStock %></h3>
+    <p>Stock Tersedia</p>
+  </div>
+
+  <div class="stat-card">
+    <h3><%= stats.success %></h3>
+    <p>Transaksi Sukses</p>
+  </div>
+
+  <div class="stat-card">
+    <h3>Rp <%= Number(stats.revenue || 0).toLocaleString('id-ID') %></h3>
+    <p>Total Revenue</p>
+  </div>
+</section>
+
+<section class="marketplace" id="products">
+
+  <main>
+    <div class="section-head">
+      <div>
+        <h2>🔥 Product Slider</h2>
+        <p>Live stock dari MongoDB, auto sync dengan bot.</p>
+      </div>
+    </div>
+
+    <div class="slider">
+      <% products.slice(0, 8).forEach(product => { %>
+        <div class="slide-card">
+          <% if (product.sold >= 1) { %>
+            <span class="hot">HOT</span>
+          <% } %>
+
+          <div class="product-icon">
+            <% if ((product.name || '').toLowerCase().includes('spotify')) { %>
+              🎧
+            <% } else if ((product.name || '').toLowerCase().includes('nitro')) { %>
+              💎
+            <% } else if ((product.name || '').toLowerCase().includes('netflix')) { %>
+              🎬
+            <% } else if ((product.name || '').toLowerCase().includes('boost')) { %>
+              🚀
+            <% } else { %>
+              🛒
+            <% } %>
+          </div>
+
+          <h3><%= product.name %></h3>
+          <p><%= product.description %></p>
+
+          <div class="price">
+            Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
+          </div>
+
+          <% if (product.stock > 0) { %>
+            <span class="stock ready">● Stock <%= product.stock %></span>
+          <% } else { %>
+            <span class="stock empty">● Habis</span>
+          <% } %>
+
+          <a href="https://discord.gg/" class="order-btn">Order Sekarang</a>
+        </div>
+      <% }) %>
+    </div>
+
+    <div class="section-head second">
+      <div>
+        <h2>🛍️ Semua Produk</h2>
+        <p>Produk aktif yang tersedia di database.</p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <% products.forEach(product => { %>
+        <div class="card">
+          <div class="card-top">
+            <span class="category"><%= product.category %></span>
+
+            <% if (product.sold >= 1) { %>
+              <span class="hot-badge">🔥 Hot</span>
+            <% } else { %>
+              <span class="hot-badge normal">New</span>
+            <% } %>
+          </div>
+
+          <h3><%= product.name %></h3>
+          <p><%= product.description %></p>
+
+          <h4>Rp <%= Number(product.price || 0).toLocaleString('id-ID') %></h4>
+
+          <div class="card-bottom">
+            <% if (product.stock > 0) { %>
+              <span class="stock ready">Ready: <%= product.stock %></span>
+            <% } else { %>
+              <span class="stock empty">Habis</span>
+            <% } %>
+
+            <a href="https://discord.gg/" class="cart">🛒</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </main>
+
+  <aside class="sidebar">
+    <div class="side-card">
+      <h3>🏆 Top Seller</h3>
+
+      <% if (topProducts.length) { %>
+        <% topProducts.forEach((product, index) => { %>
+          <div class="top-item">
+            <span>#<%= index + 1 %></span>
+            <div>
+              <b><%= product.name %></b>
+              <p><%= product.sold %> sold</p>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>Belum ada transaksi.</p>
+      <% } %>
+    </div>
+
+    <div class="side-card">
+      <h3>⚡ Store Status</h3>
+      <p>Auto Delivery: <b class="green">Online</b></p>
+      <p>Database: <b class="green">Connected</b></p>
+      <p>Support: <b class="green">Available</b></p>
+    </div>
+  </aside>
 
 </section>
 
-<footer class="footer">
-  © 2026 MANJAH STORE • Powered by EL
+<section class="features-section">
+  <div class="feature">
+    <div>🚀</div>
+    <h3>Instant Delivery</h3>
+    <p>Produk otomatis dikirim lewat bot setelah payment diterima.</p>
+  </div>
+
+  <div class="feature">
+    <div>🛡️</div>
+    <h3>Trusted System</h3>
+    <p>Invoice, stock, dan transaksi tercatat otomatis di database.</p>
+  </div>
+
+  <div class="feature">
+    <div>🎧</div>
+    <h3>Fast Support</h3>
+    <p>Ticket Discord langsung dibuat untuk order dan bantuan.</p>
+  </div>
+
+  <div class="feature">
+    <div>💎</div>
+    <h3>Premium UI</h3>
+    <p>Store modern dengan cyberpunk neon marketplace style.</p>
+  </div>
+</section>
+
+<footer class="footer" id="footer">
+  <div>
+    <h2>MANJAH <span>STORE</span></h2>
+    <p>Premium digital marketplace dengan auto delivery system.</p>
+  </div>
+
+  <div>
+    <h4>Menu</h4>
+    <a href="#">Home</a>
+    <a href="#products">Produk</a>
+    <a href="#stats">Stats</a>
+  </div>
+
+  <div>
+    <h4>Order</h4>
+    <a href="https://discord.gg/">Discord</a>
+    <a href="#">Ticket System</a>
+    <a href="#">Auto Delivery</a>
+  </div>
 </footer>
+
+<script src="/particles.js"></script>
 
 </body>
 </html>
