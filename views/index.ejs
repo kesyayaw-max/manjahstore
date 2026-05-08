@@ -2,164 +2,83 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manjah Store</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<nav class="navbar">
-  <div class="logo">
-    <div class="logo-icon">M</div>
-    <span>MANJAH <b>STORE</b></span>
-  </div>
-
-  <div class="nav-links">
-    <a href="#">Home</a>
-    <a href="#products">Produk</a>
-    <a href="#features">Keunggulan</a>
-    <a href="#footer">Kontak</a>
-  </div>
-
-  <a href="https://discord.gg/dXFQEKkpB4" class="nav-btn">Join Discord</a>
-</nav>
-
 <section class="hero">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-
-  <div class="floating icon-discord">💬</div>
-  <div class="floating icon-spotify">🎧</div>
-  <div class="floating icon-nitro">💎</div>
-  <div class="floating icon-crown">👑</div>
-
   <div class="hero-content">
-    <div class="badge">👑 DIGITAL MARKETPLACE</div>
-
-    <h1>MANJAH <span>STORE</span></h1>
+    <h1>MANJAH STORE</h1>
 
     <p>
-      Digital Product • Discord Service • Auto Delivery
+      Premium Digital Marketplace • Discord Service • Auto Delivery
     </p>
 
-    <div class="hero-features">
-      <span>⚡ Instant Delivery</span>
-      <span>🛡️ 100% Trusted</span>
-      <span>🎧 24/7 Support</span>
-      <span>💎 Premium Quality</span>
-    </div>
-
     <div class="hero-buttons">
-      <a href="https://discord.gg/dXFQEKkpB4" class="btn primary">Join Discord</a>
-      <a href="#products" class="btn secondary">Lihat Produk</a>
+      <a href="https://discord.gg/" class="btn btn-primary">
+        Join Discord
+      </a>
+
+      <a href="#products" class="btn btn-secondary">
+        Lihat Produk
+      </a>
     </div>
   </div>
 </section>
 
 <section class="products" id="products">
-  <div class="section-head">
-    <h2>🛍️ Produk Tersedia</h2>
-    <span>Auto stock realtime dari database</span>
-  </div>
+
+  <h2 class="section-title">
+    Produk Tersedia
+  </h2>
 
   <div class="grid">
+
     <% products.forEach(product => { %>
+
       <div class="card">
-        <div class="card-top">
-          <span class="category"><%= product.category %></span>
-          <span class="star">⭐</span>
-        </div>
 
-        <div class="product-icon">
-          <% if ((product.name || '').toLowerCase().includes('spotify')) { %>
-            🎧
-          <% } else if ((product.name || '').toLowerCase().includes('nitro')) { %>
-            💎
-          <% } else if ((product.name || '').toLowerCase().includes('netflix')) { %>
-            🎬
-          <% } else { %>
-            🛒
-          <% } %>
-        </div>
+        <span class="category">
+          <%= product.category %>
+        </span>
 
-        <h3><%= product.name %></h3>
+        <h3>
+          <%= product.name %>
+        </h3>
 
         <p class="desc">
-          <%= product.description || 'Produk digital premium dengan proses cepat dan aman.' %>
+          <%= product.description || '-' %>
         </p>
 
         <div class="price">
           Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
         </div>
 
-        <div class="card-bottom">
-          <% if (product.stock > 0) { %>
-            <span class="stock ready">● Stock: <%= product.stock %></span>
-          <% } else { %>
-            <span class="stock empty">● Habis</span>
-          <% } %>
+        <% if (product.stock > 0) { %>
 
-          <a href="https://discord.gg/" class="cart-btn">🛒</a>
-        </div>
+          <span class="stock ready">
+            Stock: <%= product.stock %>
+          </span>
+
+        <% } else { %>
+
+          <span class="stock empty">
+            Stock Habis
+          </span>
+
+        <% } %>
+
       </div>
+
     <% }) %>
+
   </div>
+
 </section>
 
-<section class="features" id="features">
-  <div class="feature">
-    <div>🚀</div>
-    <h3>Instant Delivery</h3>
-    <p>Produk dikirim otomatis setelah pembayaran diterima.</p>
-  </div>
-
-  <div class="feature">
-    <div>🛡️</div>
-    <h3>100% Trusted</h3>
-    <p>Transaksi aman, cepat, dan terpercaya.</p>
-  </div>
-
-  <div class="feature">
-    <div>🎧</div>
-    <h3>24/7 Support</h3>
-    <p>Support aktif dan siap membantu kapan saja.</p>
-  </div>
-
-  <div class="feature">
-    <div>💎</div>
-    <h3>Premium Quality</h3>
-    <p>Produk berkualitas dan layanan profesional.</p>
-  </div>
-</section>
-
-<section class="cta">
-  <div>
-    <h2>Mau order cepat atau tanya-tanya?</h2>
-    <p>Join Discord sekarang dan dapatkan bantuan langsung.</p>
-  </div>
-
-  <a href="https://discord.gg/dXFQEKkpB4" class="btn primary">Join Discord Sekarang</a>
-</section>
-
-<footer class="footer" id="footer">
-  <div>
-    <h2>MANJAH <span>STORE</span></h2>
-    <p>Digital Marketplace terpercaya.</p>
-  </div>
-
-  <div>
-    <h4>Link Cepat</h4>
-    <a href="#">Home</a>
-    <a href="#products">Produk</a>
-    <a href="#features">Keunggulan</a>
-  </div>
-
-  <div>
-    <h4>Informasi</h4>
-    <a href="#">FAQ</a>
-    <a href="#">Syarat & Ketentuan</a>
-    <a href="#">Refund Policy</a>
-  </div>
+<footer class="footer">
+  © 2026 MANJAH STORE • Powered by EL
 </footer>
 
 </body>
