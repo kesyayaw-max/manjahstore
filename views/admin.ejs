@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="admin-page">
+  <div class="admin-header">
+    <div>
+      <h1>Dashboard Admin</h1>
+      <p>Kelola produk dan stock Manjah Store.</p>
+    </div>
+
+    <a href="/admin/logout">Logout</a>
+  </div>
+
+  <div class="admin-grid">
+    <div class="admin-box">
+      <h2>Tambah Produk</h2>
+
+      <form method="POST" action="/admin/product/add">
+        <input name="name" placeholder="Nama produk" required>
+        <input name="code" placeholder="Kode produk, contoh: spotify_1m" required>
+        <input name="category" placeholder="Kategori, contoh: App Premium" required>
+        <input name="price" type="number" placeholder="Harga" required>
+        <textarea name="description" placeholder="Deskripsi produk"></textarea>
+        <button type="submit">Tambah Produk</button>
+      </form>
+    </div>
+
+    <div class="admin-box">
+      <h2>Tambah Stock</h2>
+
+      <form method="POST" action="/admin/stock/add">
+        <select name="productCode" required>
+          <% products.forEach(product => { %>
+            <option value="<%= product.code %>">
+              <%= product.name %> - <%= product.code %>
+            </option>
+          <% }) %>
+        </select>
+
+        <textarea name="content" placeholder="Isi stock / akun / kode produk" required></textarea>
+        <button type="submit">Tambah Stock</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-box">
+    <h2>List Produk</h2>
+
+    <div class="admin-table">
+      <% products.forEach(product => { %>
+        <div class="admin-row">
+          <div>
+            <b><%= product.name %></b>
+            <p><%= product.code %> • <%= product.category %></p>
+          </div>
+
+          <div>
+            Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
+          </div>
+
+          <div>
+            Stock: <%= product.stock %>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

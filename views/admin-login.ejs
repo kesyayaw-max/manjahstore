@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="admin-page">
+  <div class="admin-box small">
+    <h1>Admin Login</h1>
+    <p>Masuk ke dashboard Manjah Store.</p>
+
+    <% if (error) { %>
+      <div class="admin-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/admin/login">
+      <input type="password" name="password" placeholder="Password Admin" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
