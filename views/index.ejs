@@ -1,38 +1,85 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Manjah Store</title>
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <section class="hero">
+
+<section class="hero">
+  <div class="hero-content">
     <h1>MANJAH STORE</h1>
-    <p>Digital product, Discord service, premium app, dan auto delivery.</p>
-    <a href="https://discord.gg/" class="btn">Order via Discord</a>
-  </section>
 
-  <section class="products">
-    <h2>Produk Tersedia</h2>
+    <p>
+      Premium Digital Marketplace • Discord Service • Auto Delivery
+    </p>
 
-    <div class="grid">
-      <% products.forEach(product => { %>
-        <div class="card">
-          <span class="category"><%= product.category %></span>
-          <h3><%= product.name %></h3>
-          <p><%= product.description || '-' %></p>
-          <h4>
-          Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
-          </h4>
+    <div class="hero-buttons">
+      <a href="https://discord.gg/" class="btn btn-primary">
+        Join Discord
+      </a>
 
-          <% if (product.stock > 0) { %>
-            <span class="stock ready">Stock: <%= product.stock %></span>
-          <% } else { %>
-            <span class="stock empty">Habis</span>
-          <% } %>
-        </div>
-      <% }) %>
+      <a href="#products" class="btn btn-secondary">
+        Lihat Produk
+      </a>
     </div>
-  </section>
+  </div>
+</section>
+
+<section class="products" id="products">
+
+  <h2 class="section-title">
+    Produk Tersedia
+  </h2>
+
+  <div class="grid">
+
+    <% products.forEach(product => { %>
+
+      <div class="card">
+
+        <span class="category">
+          <%= product.category %>
+        </span>
+
+        <h3>
+          <%= product.name %>
+        </h3>
+
+        <p class="desc">
+          <%= product.description || '-' %>
+        </p>
+
+        <div class="price">
+          Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
+        </div>
+
+        <% if (product.stock > 0) { %>
+
+          <span class="stock ready">
+            Stock: <%= product.stock %>
+          </span>
+
+        <% } else { %>
+
+          <span class="stock empty">
+            Stock Habis
+          </span>
+
+        <% } %>
+
+      </div>
+
+    <% }) %>
+
+  </div>
+
+</section>
+
+<footer class="footer">
+  © 2026 MANJAH STORE • Powered by El
+</footer>
+
 </body>
 </html>
