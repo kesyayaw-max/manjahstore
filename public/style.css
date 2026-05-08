@@ -715,3 +715,29 @@ body::before {
     min-width: 260px;
   }
 }
+.product-tools {
+  display: flex;
+  gap: 14px;
+  margin: 25px 0 35px;
+  flex-wrap: wrap;
+}
+
+.product-tools input,
+.product-tools select {
+  background: rgba(10, 10, 24, .8);
+  color: white;
+  border: 1px solid rgba(168, 85, 247, .35);
+  border-radius: 14px;
+  padding: 14px 18px;
+  outline: none;
+}
+
+.product-tools input {
+  min-width: 260px;
+}
+
+.product-tools input:focus,
+.product-tools select:focus {
+  box-shadow: 0 0 20px rgba(168, 85, 247, .35);
+  border-color: #a855f7;
+}

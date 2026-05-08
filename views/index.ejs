@@ -43,9 +43,7 @@
 
     <h1>MANJAH <span>STORE</span></h1>
 
-    <p>
-      Digital Product • Discord Service • Premium App • Auto Delivery
-    </p>
+    <p>Digital Product • Discord Service • Premium App • Auto Delivery</p>
 
     <div class="hero-features">
       <span>⚡ Instant Delivery</span>
@@ -93,9 +91,25 @@
       </div>
     </div>
 
+    <div class="product-tools">
+      <input type="text" id="searchInput" placeholder="Cari produk...">
+
+      <select id="categoryFilter">
+        <option value="all">Semua Kategori</option>
+
+        <% [...new Set(products.map(p => p.category))].forEach(category => { %>
+          <option value="<%= category %>"><%= category %></option>
+        <% }) %>
+      </select>
+    </div>
+
     <div class="slider">
       <% products.slice(0, 8).forEach(product => { %>
-        <div class="slide-card">
+        <div
+          class="slide-card product-item"
+          data-name="<%= (product.name || '').toLowerCase() %>"
+          data-category="<%= product.category %>"
+        >
           <% if (product.sold >= 1) { %>
             <span class="hot">HOT</span>
           <% } %>
@@ -141,7 +155,11 @@
 
     <div class="grid">
       <% products.forEach(product => { %>
-        <div class="card">
+        <div
+          class="card product-item"
+          data-name="<%= (product.name || '').toLowerCase() %>"
+          data-category="<%= product.category %>"
+        >
           <div class="card-top">
             <span class="category"><%= product.category %></span>
 
@@ -248,6 +266,30 @@
 </footer>
 
 <script src="/particles.js"></script>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const categoryFilter = document.getElementById('categoryFilter');
+  const productItems = document.querySelectorAll('.product-item');
+
+  function filterProducts() {
+    const search = searchInput.value.toLowerCase();
+    const category = categoryFilter.value;
+
+    productItems.forEach(product => {
+      const name = product.dataset.name || '';
+      const productCategory = product.dataset.category || '';
+
+      const matchSearch = name.includes(search);
+      const matchCategory = category === 'all' || productCategory === category;
+
+      product.style.display = matchSearch && matchCategory ? '' : 'none';
+    });
+  }
+
+  searchInput.addEventListener('input', filterProducts);
+  categoryFilter.addEventListener('change', filterProducts);
+</script>
 
 </body>
 </html>
