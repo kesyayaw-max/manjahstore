@@ -107,11 +107,6 @@ async function startBot() {
   }
 }
 
-client.once('ready', () => {
-  isConnecting = false;
-  console.log(`BOT MANJAH READY BOS! ${client.user.tag}`);
-});
-
 client.on('shardDisconnect', () => {
   console.log('Bot disconnect dari Discord. Reconnect otomatis...');
 });
