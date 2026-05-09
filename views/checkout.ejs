@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Checkout - <%= product.name %></title>
+<link rel="stylesheet" href="/style.css">
+<style>
+body{
+background:#050510;
+color:white;
+font-family:Arial;
+margin:0;
+padding:40px;
+}
+.checkout-box{
+max-width:700px;
+margin:auto;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(139,92,246,.35);
+border-radius:25px;
+padding:35px;
+box-shadow:0 0 40px rgba(139,92,246,.2);
+}
+.checkout-box h1{
+margin-top:0;
+font-size:38px;
+}
+.checkout-box p{
+color:#aaa;
+}
+.info{
+background:rgba(139,92,246,.08);
+padding:20px;
+border-radius:18px;
+margin:20px 0;
+}
+form{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+input{
+padding:16px;
+border-radius:14px;
+border:none;
+background:#0f1022;
+color:white;
+font-size:15px;
+}
+button{
+padding:16px;
+border:none;
+border-radius:14px;
+background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+color:white;
+font-weight:900;
+font-size:16px;
+cursor:pointer;
+}
+.pay{
+margin-top:25px;
+padding:20px;
+border-radius:18px;
+background:rgba(16,185,129,.08);
+border:1px solid rgba(16,185,129,.2);
+}
+a{
+color:#8b5cf6;
+text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<div class="checkout-box">
+
+<h1><%= product.name %></h1>
+<p><%= product.description %></p>
+
+<div class="info">
+<h3>Harga:</h3>
+<b>Rp <%= Number(product.price).toLocaleString('id-ID') %></b>
+</div>
+
+<div class="pay">
+<h3>Payment:</h3>
+<p><%= payment %></p>
+</div>
+
+<form method="POST" action="/checkout">
+<input type="hidden" name="productCode" value="<%= product.code %>">
+<input type="hidden" name="productName" value="<%= product.name %>">
+<input type="hidden" name="total" value="<%= product.price %>">
+
+<input name="buyerName" placeholder="Nama kamu" required>
+<input name="buyerDiscord" placeholder="Discord ID kamu" required>
+
+<button type="submit">
+Checkout Sekarang
+</button>
+</form>
+
+<br>
+<a href="<%= invite %>" target="_blank">
+Join Discord Server →
+</a>
+
+</div>
+
+</body>
+</html>

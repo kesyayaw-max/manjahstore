@@ -29,7 +29,7 @@
     <a href="#footer">Kontak</a>
   </div>
 
-  <a href="https://discord.gg/" class="discord-btn">Join Discord</a>
+  <a href="https://discord.gg/dXFQEKkpB4" class="discord-btn">Join Discord</a>
 </nav>
 
 <section class="hero">
@@ -53,7 +53,7 @@
     </div>
 
     <div class="hero-buttons">
-      <a href="https://discord.gg/" class="btn primary">Join Discord</a>
+      <a href="https://discord.gg/dXFQEKkpB4" class="btn primary">Join Discord</a>
       <a href="#products" class="btn secondary">Lihat Produk</a>
     </div>
   </div>
@@ -140,16 +140,9 @@
             <span class="stock empty">● Habis</span>
           <% } %>
 
-          <button
-            type="button"
-            class="order-btn detail-btn"
-            data-name="<%= product.name %>"
-            data-price="Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>"
-            data-stock="<%= product.stock %>"
-            data-desc="<%= product.description || 'Premium digital product.' %>"
-          >
-            Order Sekarang
-          </button>
+          <a href="/checkout/<%= product.code %>" class="order-btn">
+  Order Sekarang
+</a>
         </div>
       <% }) %>
     </div>
@@ -190,16 +183,9 @@
               <span class="stock empty">Habis</span>
             <% } %>
 
-            <button
-              type="button"
-              class="cart detail-btn"
-              data-name="<%= product.name %>"
-              data-price="Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>"
-              data-stock="<%= product.stock %>"
-              data-desc="<%= product.description || 'Premium digital product.' %>"
-            >
-              🛒
-            </button>
+            <a href="/checkout/<%= product.code %>" class="cart">
+  🛒
+</a>
           </div>
         </div>
       <% }) %>
@@ -276,25 +262,13 @@
 
   <div>
     <h4>Order</h4>
-    <a href="https://discord.gg/">Discord</a>
+    <a href="https://discord.gg/dXFQEKkpB4">Discord</a>
     <a href="#">Ticket System</a>
     <a href="#">Auto Delivery</a>
   </div>
 </footer>
 
-<div class="modal" id="productModal">
-  <div class="modal-box">
-    <button class="modal-close" id="modalClose">×</button>
-
-    <h2 id="modalName"></h2>
-    <p id="modalDesc"></p>
-
-    <div class="modal-info">
-      <span id="modalPrice"></span>
-      <span id="modalStock"></span>
-    </div>
-
-    <a href="https://discord.gg/" class="modal-order">
+    <a href="https://discord.gg/dXFQEKkpB4" class="modal-order">
       Order via Discord
     </a>
   </div>
@@ -325,7 +299,6 @@
   searchInput.addEventListener('input', filterProducts);
   categoryFilter.addEventListener('change', filterProducts);
 
-  const modal = document.getElementById('productModal');
   const modalClose = document.getElementById('modalClose');
 
   document.querySelectorAll('.detail-btn').forEach(btn => {
@@ -347,9 +320,6 @@
     modal.classList.remove('show');
   });
 
-  modal.addEventListener('click', e => {
-    if (e.target === modal) modal.classList.remove('show');
-  });
 </script>
 
 </body>

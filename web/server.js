@@ -5,6 +5,7 @@ const session = require('express-session');
 const Product = require('../database/models/Product');
 const Stock = require('../database/models/Stock');
 const Invoice = require('../database/models/Invoice');
+const Order = require('../database/models/Order');
 
 const app = express();
 
@@ -25,6 +26,11 @@ function requireAdmin(req, res, next) {
   return res.redirect('/admin/login');
 }
 
+/*
+========================
+HOME
+========================
+*/
 app.get('/', async (req, res) => {
   try {
     const products = await Product.find({ active: true }).sort({ createdAt: -1 });
@@ -60,7 +66,9 @@ app.get('/', async (req, res) => {
       return total + Number(item.totalPrice || 0);
     }, 0);
 
-    const topProducts = [...data].sort((a, b) => b.sold - a.sold).slice(0, 5);
+    const topProducts = [...data]
+      .sort((a, b) => b.sold - a.sold)
+      .slice(0, 5);
 
     res.render('index', {
       products: data,
@@ -79,6 +87,92 @@ app.get('/', async (req, res) => {
   }
 });
 
+/*
+========================
+CHECKOUT
+========================
+*/
+app.get('/checkout/:code', async (req, res) => {
+  try {
+    const product = await Product.findOne({
+      code: req.params.code
+    });
+
+    if (!product) {
+      return res.send('Produk tidak ditemukan');
+    }
+
+    res.render('checkout', {
+      product,
+      payment: process.env.PAYMENT,
+      invite: process.env.DISCORD_INVITE
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Checkout error');
+  }
+});
+
+app.post('/checkout', async (req, res) => {
+  try {
+    const {
+      buyerName,
+      buyerDiscord,
+      productCode,
+      productName,
+      total
+    } = req.body;
+
+    const invoiceId =
+      'INV-' +
+      Math.floor(Math.random() * 999999);
+
+    await Order.create({
+      invoiceId,
+      buyerName,
+      buyerDiscord,
+      productCode,
+      productName,
+      total: Number(total),
+      paymentMethod: process.env.PAYMENT,
+      status: 'pending'
+    });
+
+    res.send(`
+      <html>
+      <body style="
+        background:#050510;
+        color:white;
+        font-family:Arial;
+        text-align:center;
+        padding:80px;
+      ">
+        <h1>Order Berhasil Dibuat</h1>
+        <p>Invoice: <b>${invoiceId}</b></p>
+        <p>Masuk Discord untuk proses payment.</p>
+        <br>
+        <a
+          href="${process.env.DISCORD_INVITE}"
+          style="color:#8b5cf6;font-size:20px;"
+        >
+          Join Discord →
+        </a>
+      </body>
+      </html>
+    `);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Checkout gagal');
+  }
+});
+
+/*
+========================
+ADMIN LOGIN
+========================
+*/
 app.get('/admin/login', (req, res) => {
   res.render('admin-login', { error: null });
 });
@@ -87,7 +181,9 @@ app.post('/admin/login', (req, res) => {
   const { password } = req.body;
 
   if (password !== process.env.ADMIN_PASSWORD) {
-    return res.render('admin-login', { error: 'Password salah.' });
+    return res.render('admin-login', {
+      error: 'Password salah.'
+    });
   }
 
   req.session.admin = true;
@@ -100,8 +196,15 @@ app.get('/admin/logout', (req, res) => {
   });
 });
 
+/*
+========================
+ADMIN PANEL
+========================
+*/
 app.get('/admin', requireAdmin, async (req, res) => {
-  const products = await Product.find().sort({ createdAt: -1 });
+  const products = await Product.find().sort({
+    createdAt: -1
+  });
 
   const data = [];
 
@@ -117,11 +220,19 @@ app.get('/admin', requireAdmin, async (req, res) => {
     });
   }
 
-  res.render('admin', { products: data });
+  res.render('admin', {
+    products: data
+  });
 });
 
 app.post('/admin/product/add', requireAdmin, async (req, res) => {
-  const { name, code, category, price, description } = req.body;
+  const {
+    name,
+    code,
+    category,
+    price,
+    description
+  } = req.body;
 
   await Product.create({
     guildId: process.env.GUILD_ID || 'web',
@@ -137,7 +248,10 @@ app.post('/admin/product/add', requireAdmin, async (req, res) => {
 });
 
 app.post('/admin/stock/add', requireAdmin, async (req, res) => {
-  const { productCode, content } = req.body;
+  const {
+    productCode,
+    content
+  } = req.body;
 
   await Stock.create({
     guildId: process.env.GUILD_ID || 'web',
@@ -149,6 +263,11 @@ app.post('/admin/stock/add', requireAdmin, async (req, res) => {
   res.redirect('/admin');
 });
 
+/*
+========================
+START WEB
+========================
+*/
 function startWeb() {
   const PORT = process.env.PORT || 3000;
 
