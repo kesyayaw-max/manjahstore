@@ -2,37 +2,64 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Manjah Store • Admin Premium</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<div class="admin-page">
-  <div class="admin-header">
+<canvas id="particles"></canvas>
+
+<div class="admin-wrap">
+
+  <div class="admin-top">
     <div>
-      <h1>Dashboard Admin</h1>
-      <p>Kelola produk dan stock Manjah Store.</p>
+      <h1>⚡ Admin Premium Panel</h1>
+      <p>Kelola produk, stock, order, dan delivery otomatis.</p>
     </div>
 
-    <a href="/admin/logout">Logout</a>
+    <a href="/admin/logout" class="logout-btn">Logout</a>
+  </div>
+
+  <div class="dash-grid">
+    <div class="dash-card">
+      <span>Total Produk</span>
+      <h2><%= products.length %></h2>
+    </div>
+
+    <div class="dash-card">
+      <span>Total Stock</span>
+      <h2><%= products.reduce((a,b)=>a+b.stock,0) %></h2>
+    </div>
+
+    <div class="dash-card">
+      <span>Status</span>
+      <h2 class="green">ONLINE</h2>
+    </div>
+
+    <div class="dash-card">
+      <span>System</span>
+      <h2>AUTO</h2>
+    </div>
   </div>
 
   <div class="admin-grid">
-    <div class="admin-box">
-      <h2>Tambah Produk</h2>
+
+    <div class="admin-box premium-box">
+      <h2>➕ Tambah Produk</h2>
 
       <form method="POST" action="/admin/product/add">
         <input name="name" placeholder="Nama produk" required>
-        <input name="code" placeholder="Kode produk, contoh: spotify_1m" required>
-        <input name="category" placeholder="Kategori, contoh: App Premium" required>
+        <input name="code" placeholder="Kode produk (spotify_1m)" required>
+        <input name="category" placeholder="Kategori" required>
         <input name="price" type="number" placeholder="Harga" required>
         <textarea name="description" placeholder="Deskripsi produk"></textarea>
         <button type="submit">Tambah Produk</button>
       </form>
     </div>
 
-    <div class="admin-box">
-      <h2>Tambah Stock</h2>
+    <div class="admin-box premium-box">
+      <h2>📦 Tambah Stock</h2>
 
       <form method="POST" action="/admin/stock/add">
         <select name="productCode" required>
@@ -43,35 +70,50 @@
           <% }) %>
         </select>
 
-        <textarea name="content" placeholder="Isi stock / akun / kode produk" required></textarea>
+        <textarea
+          name="content"
+          placeholder="Isi stock / akun / kode produk"
+          required
+        ></textarea>
+
         <button type="submit">Tambah Stock</button>
       </form>
     </div>
+
   </div>
 
-  <div class="admin-box">
-    <h2>List Produk</h2>
+  <div class="admin-box premium-box">
+    <h2>🛍️ Produk Aktif</h2>
 
-    <div class="admin-table">
+    <div class="product-list">
       <% products.forEach(product => { %>
-        <div class="admin-row">
-          <div>
-            <b><%= product.name %></b>
+        <div class="premium-row">
+
+          <div class="left">
+            <h3><%= product.name %></h3>
             <p><%= product.code %> • <%= product.category %></p>
           </div>
 
-          <div>
+          <div class="mid">
             Rp <%= Number(product.price || 0).toLocaleString('id-ID') %>
           </div>
 
-          <div>
-            Stock: <%= product.stock %>
+          <div class="right">
+            <% if(product.stock > 0){ %>
+              <span class="stock ready">● <%= product.stock %></span>
+            <% } else { %>
+              <span class="stock empty">● Habis</span>
+            <% } %>
           </div>
+
         </div>
       <% }) %>
     </div>
   </div>
+
 </div>
+
+<script src="/particles.js"></script>
 
 </body>
 </html>
